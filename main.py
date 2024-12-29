@@ -14,6 +14,8 @@ def main():
     print(f"Screen height: {SCREEN_HEIGHT}")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
+    font = pygame.font.Font(None, 50)
+    score = 0
     dt = 0  # delta time
 
     updatable = pygame.sprite.Group()
@@ -36,6 +38,9 @@ def main():
                 return
 
         screen.fill((0, 0, 0))
+        score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+        screen.blit(score_text, (10, 10))
+
         for object in updatable:
             object.update(dt)
         for object in asteroids:
@@ -43,6 +48,7 @@ def main():
                 if object.collision_check(shot):
                     object.split()
                     shot.kill()
+                    score += 1
             if object.collision_check(player):
                 print("Game over!")
                 sys.exit(0)
